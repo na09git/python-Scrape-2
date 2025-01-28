@@ -1,6 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
 
+print('Enter your unfamiliar skill')
+unfamiliar_skill=input('>')
+print(f'Unfamiliar Skill: {unfamiliar_skill}')
+
+
 html_text=requests.get('https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&searchTextSrc=&searchTextText=&txtKeywords=python&txtLocation=').text
 soup=BeautifulSoup(html_text,'lxml')
 jobs=soup.find_all('li',class_='clearfix job-bx wht-shd-bx')
@@ -10,11 +15,11 @@ for job in jobs:
     if 'few' in Published_Date:
         company_name=job.find('h3',class_='joblist-comp-name').text.replace(' ','')
         skills=job.find('span',class_='srp-skills')
-        more_info=job.header.h2.a
+        more_info=job.header.h2.a['href']
         print('---------')
 
 
         print(f'Commpany Name: {company_name.strip()}')
         print(f'Skills: {skills}')
         print(f'Published Date: {Published_Date}')
-        print(f'Published Date: {more_info}')
+        print(f'More Information: {more_info}')
